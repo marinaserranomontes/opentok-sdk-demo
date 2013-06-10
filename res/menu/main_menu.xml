@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainMenu">
+    <item android:id="@+id/helloWorld"
+        android:title="@string/helloworld" />
+    <item android:id="@+id/controlBar"
+        android:title="@string/controlbar" />
+     <item android:id="@+id/echotest"
+        android:title="@string/echotest" />
+</menu>
