@@ -1,38 +1,92 @@
 package com.opentok.android.demo;
 
+import com.opentok.android.demo.controlbar.ControlBarActivity;
+import com.opentok.android.demo.helloworld.HelloWorldActivity;
+
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.app.Activity;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
+/**
+ * Main demo app for getting started with the OpenTok Android SDK.
+ * It contains:
+ *  	a basic hello-world activity
+ * 		a basic hello-world activity with control bar with stream name and action buttons to switch camera and audio mute
+ */
 public class MainActivity extends Activity {
+
+	private static final String LOGTAG = "demo-opentok-sdk";
+	private WakeLock wakeLock;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.main_activity);
+		
+		// Disable screen dimming
+    	PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+    	wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "Full Wake Lock");
+	
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
+	}
+	
+	 @Override
+	 public void onStop() {
+		
+		 super.onStop();
+			
+		 if (wakeLock.isHeld()) {
+	        wakeLock.release();
+		 }
+	    	   	
+	}
+	@Override
+	public void onResume() {
+		
+		super.onResume();
+	    
+		if (!wakeLock.isHeld()) {
+	    	wakeLock.acquire();
+	    }
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	protected void onPause() {
 		
-		super.onCreateContextMenu(menu, v, menuInfo);
-
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_menu, menu);
-
+		super.onPause();
+	    
+		if (wakeLock.isHeld()) {
+	    	wakeLock.release();
+	    }
+	}
+		
+	public void startHelloWorldApp(View v) {
+		
+		Log.i(LOGTAG,"starting hello-world app");
+		
+		Intent intent = new Intent(MainActivity.this, HelloWorldActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    startActivity(intent);
+	}
+	
+	public void startControlBarApp(View v) {
+		
+		Log.i(LOGTAG,"starting control bar app");
+		
+		Intent intent = new Intent(MainActivity.this, ControlBarActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    startActivity(intent);
 		
 	}
-
+	
 }

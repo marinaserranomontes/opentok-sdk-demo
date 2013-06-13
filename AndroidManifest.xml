@@ -7,21 +7,48 @@
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="17" />
-
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.opentok.android.demo.MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
-
+    	<uses-permission android:name="android.permission.CAMERA" />
+    	<uses-permission android:name="android.permission.INTERNET" />
+    	<uses-permission android:name="android.permission.WAKE_LOCK" />
+    	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+    
+   	 	<uses-feature android:name="android.hardware.camera" />
+   	 	<uses-feature android:name="android.hardware.camera.autofocus" />
+       
+   	 	
+   	 	<application
+   	 	    android:allowBackup="true"
+        	android:icon="@drawable/tb_icon"
+        	android:label="@string/app_name"
+        	android:theme="@style/AppTheme" >
+        	
+   	 	    <activity
+           		android:name="com.opentok.android.demo.MainActivity"
+            	android:configChanges="orientation|keyboardHidden|screenSize">
+            	<intent-filter>
+                	<action android:name="android.intent.action.MAIN" />
+                	<category android:name="android.intent.category.LAUNCHER" />
+            	</intent-filter>
+        	</activity>
+        	
+        	<activity
+            	android:name="com.opentok.android.demo.helloworld.HelloWorldActivity"
+            	android:configChanges="orientation|keyboardHidden|screenSize">
+            	<intent-filter>
+                	<action android:name="com.opentok.android.demo.helloworld.HelloWorldActivity" />
+                	<category android:name="android.intent.category.DEFAULT" />
+            	</intent-filter>
+        	</activity>
+        	
+        	<activity
+           		android:name="com.opentok.android.demo.controlbar.ControlBarActivity"
+            	android:configChanges="orientation|keyboardHidden|screenSize">
+            	<intent-filter>
+                	<action android:name="com.opentok.android.demo.controlbar.ControlBarActivity" />
+                	<category android:name="android.intent.category.DEFAULT" />
+            	</intent-filter>
+        	</activity>
+        	
+    	</application>
+   	 	
 </manifest>
