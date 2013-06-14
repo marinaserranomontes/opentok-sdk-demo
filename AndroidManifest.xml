@@ -33,6 +33,7 @@
         	
         	<activity
             	android:name="com.opentok.android.demo.helloworld.HelloWorldActivity"
+            	android:label="@string/helloworldapp"
             	android:configChanges="orientation|keyboardHidden|screenSize">
             	<intent-filter>
                 	<action android:name="com.opentok.android.demo.helloworld.HelloWorldActivity" />
@@ -42,6 +43,7 @@
         	
         	<activity
            		android:name="com.opentok.android.demo.controlbar.ControlBarActivity"
+           		android:label="@string/controlbarapp"
             	android:configChanges="orientation|keyboardHidden|screenSize">
             	<intent-filter>
                 	<action android:name="com.opentok.android.demo.controlbar.ControlBarActivity" />

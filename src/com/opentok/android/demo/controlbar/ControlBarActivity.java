@@ -33,7 +33,7 @@ public class ControlBarActivity extends HelloWorldActivity implements ControlBar
     	Log.i(LOGTAG, "session connected");
     	super.onSessionConnected();
     	if (this.getPublisher() != null) {
-    		this.getPublisher().getView().setOnClickListener(new ControlBarClickViewListener(this.getPublisher().getName()));
+    		this.getPublisher().getView().setOnClickListener(new PublisherControlBarClickViewListener(this.getPublisher().getName()));
     	}
 			
 	}    
@@ -50,17 +50,17 @@ public class ControlBarActivity extends HelloWorldActivity implements ControlBar
     	Log.i(LOGTAG, "session received stream");
     	super.onSessionReceivedStream(stream);
     	if (this.getSubscriber() != null) {
-    		this.getSubscriber().getView().setOnClickListener(new ControlBarClickViewListener(stream.getName()));
+    		this.getSubscriber().getView().setOnClickListener(new SubscriberControlBarClickViewListener(stream.getName()));
     	}
     }
 
 	 /**
 	  * A ControlBarClickViewListener is launched when publisher or subscriber view are clicked.
 	  */
-	 private class ControlBarClickViewListener implements View.OnClickListener {
+	 private class PublisherControlBarClickViewListener implements View.OnClickListener {
 		private String streamName;
 		   
-	    public ControlBarClickViewListener(String streamName) {
+	    public PublisherControlBarClickViewListener(String streamName) {
 	    	this.streamName = streamName;
 	    }
 			
@@ -69,23 +69,36 @@ public class ControlBarActivity extends HelloWorldActivity implements ControlBar
 	    	if (ControlBarActivity.this.getPublisher() != null) {
 				if (publisherControlBarView == null) {
 					publisherControlBarView = new ControlBarView(ControlBarActivity.this, ControlBarView.ViewType.PublisherView, streamName, mainLayout, ControlBarActivity.this, ControlBarActivity.this.getPublisher().getPublishVideo(), ControlBarActivity.this.getPublisher().getPublishAudio());
-					mainLayout.addView(publisherControlBarView);   
+					ControlBarActivity.this.getPublisherView().addView(publisherControlBarView);   
 					publisherControlBarView.setVisibility(View.INVISIBLE);						 
 				 }
 				publisherControlBarView.toggleVisibility();
 			}	
-			
-			if (ControlBarActivity.this.getSubscriber() != null) {
-				if (subscriberControlBarView == null) {
-					subscriberControlBarView = new ControlBarView(ControlBarActivity.this, ControlBarView.ViewType.SubscriberView, streamName, mainLayout, ControlBarActivity.this, false, ControlBarActivity.this.getSubscriber().getSubscribeToAudio());
-					ControlBarActivity.this.getSubscriberView().addView(subscriberControlBarView);
-					subscriberControlBarView.setVisibility(View.INVISIBLE);
-				}	
-				subscriberControlBarView.toggleVisibility();
-			}
-	    }  			
+	    }		
 	}
 	
+	 private class SubscriberControlBarClickViewListener implements View.OnClickListener {
+			private String streamName;
+			   
+		    public SubscriberControlBarClickViewListener(String streamName) {
+		    	this.streamName = streamName;
+		    }
+				
+		    @Override
+		   	public void onClick(View arg0) {
+		    	
+				if (ControlBarActivity.this.getSubscriber() != null) {
+					if (subscriberControlBarView == null) {
+						subscriberControlBarView = new ControlBarView(ControlBarActivity.this, ControlBarView.ViewType.SubscriberView, streamName, ControlBarActivity.this.getSubscriberView(), ControlBarActivity.this, false, ControlBarActivity.this.getSubscriber().getSubscribeToAudio());
+						ControlBarActivity.this.getSubscriberView().addView(subscriberControlBarView);
+						subscriberControlBarView.setVisibility(View.INVISIBLE);
+					}	
+					subscriberControlBarView.toggleVisibility();
+				}
+		    }  			
+		}
+		
+	 
     @Override
     public void onOverlayControlButtonClicked(ButtonType buttonType, ViewType viewType, int status) {
     	switch (buttonType) {

@@ -13,20 +13,16 @@ android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_weight="1" >
+        android:layout_weight="1" 
+        android:gravity="center_vertical">
 
         <TextView android:text="@string/helloworld"
 		android:id="@+id/helloWorld"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="16dp"
-		android:gravity="center"/>
-        
-       <View android:id="@+id/firstDivider"
-        android:layout_height="2dp"
-        android:layout_width="fill_parent"
-        android:background="#FFFFFF"/>
-       
+		android:textSize="18sp"
+		android:fontFamily="sans-serif"
+		android:paddingLeft="5dp"/> 
     </RelativeLayout>
 </TableRow>
 
@@ -39,47 +35,28 @@ android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:gravity="center_vertical">
 
         <TextView android:text="@string/controlbar"
 		android:id="@+id/controlbar"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="16dp"
-		android:gravity="center"/>
+		android:textSize="18sp"
+		android:fontFamily="sans-serif"
+		android:paddingTop="10dp"
+		android:paddingLeft="5dp"
+		android:gravity="center_vertical"		
+		/>
         
         <View android:id="@+id/firstDivider"
         android:layout_height="2dp"
         android:layout_width="fill_parent"
-        android:background="#FFFFFF" />
+        android:background="#FFFFFF" 
+        android:gravity="center_vertical"
+        />
     </RelativeLayout>
 </TableRow>
-
-<TableRow
-    android:id="@+id/tableRow2"
-    android:layout_width="40dp"
-    android:layout_height="40dp" 
-    android:layout_weight="1" 
-    android:onClick="startEchoTestApp">
-    <RelativeLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_weight="1" >
-
-        <TextView android:text="@string/echotest"
-		android:id="@+id/echotest"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textSize="16dp"
-		android:gravity="center"/>
-        
-        <View android:id="@+id/firstDivider"
-        android:layout_height="2dp"
-        android:layout_width="fill_parent"
-        android:background="#FFFFFF"/>
-    </RelativeLayout>
-</TableRow>
-
 </TableLayout>
 
 

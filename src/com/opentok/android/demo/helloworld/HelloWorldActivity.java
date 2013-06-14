@@ -1,7 +1,10 @@
 package com.opentok.android.demo.helloworld;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -37,7 +40,7 @@ public class HelloWorldActivity extends Activity implements Publisher.Listener, 
     private Subscriber subscriber;
     private Session session;
     private WakeLock wakeLock;
-    private boolean subscriberToSelf = false; // Change to false if you want to subscribe to streams other than your own.
+    private boolean subscriberToSelf = true; // Change to false if you want to subscribe to streams other than your own.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +142,10 @@ public class HelloWorldActivity extends Activity implements Publisher.Listener, 
 		if ((subscriberToSelf && session.getConnection().equals(stream.getConnection()) ) || 
 			(!subscriberToSelf && !(session.getConnection().getConnectionId().equals(stream.getConnection().getConnectionId())))){
 			subscriber = Subscriber.newInstance(HelloWorldActivity.this, stream);
-			RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
+			RelativeLayout.LayoutParams subscriberViewParams=new RelativeLayout.LayoutParams(780, getResources().getDisplayMetrics().heightPixels);
+			subscriberViewParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 			subscriberView.addView(subscriber.getView());
-			subscriberView.getChildAt(0).setLayoutParams(params);
+			subscriberView.getChildAt(0).setLayoutParams(subscriberViewParams);
 			subscriber.setListener(HelloWorldActivity.this);
 			session.subscribe(subscriber);
 		}
@@ -155,16 +159,19 @@ public class HelloWorldActivity extends Activity implements Publisher.Listener, 
     @Override
     public void onSessionDisconnected() {
     	Log.i(LOGTAG, "session disconnected");
+    	showAlert("Session disconnected: " + session.getSessionId());
     }
 
     @Override
     public void onSessionException(OpentokException exception) {
     	Log.e(LOGTAG, "session failed! " + exception.toString());
+    	showAlert("There was an error connecting to session " + session.getSessionId());
     }
 	
     @Override
     public void onSubscriberException(Subscriber subscriber, OpentokException exception) {
     	Log.i(LOGTAG, "subscriber " + subscriber + " failed! " + exception.toString());
+    	showAlert("There was an error subscribing to stream " + subscriber.getStream().getStreamId());
     }
 
     @Override
@@ -175,6 +182,7 @@ public class HelloWorldActivity extends Activity implements Publisher.Listener, 
     @Override
     public void onPublisherException(OpentokException exception) {
     	Log.i(LOGTAG, "publisher failed! " + exception.toString());
+    	showAlert("There was an error publishing");
     }
 
     @Override
@@ -215,5 +223,22 @@ public class HelloWorldActivity extends Activity implements Publisher.Listener, 
     private int measurePixels(int dp) {
     	double screenDensity = getResources().getDisplayMetrics().density;
 		return (int) (screenDensity * dp);
+    }
+    
+    private void showAlert(String message) {
+    	if (!this.isFinishing()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Message from video session ");
+            builder.setMessage(message);
+            builder.setPositiveButton("OK", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int arg1) {
+					dialog.cancel();	
+				}
+			});
+
+            builder.create();
+            builder.show();
+    	}
     }
 }

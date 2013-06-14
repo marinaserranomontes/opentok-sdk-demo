@@ -6,5 +6,6 @@
     <string name="helloworld">Hello World</string>
     <string name="controlbar">Control Bar View</string>
     <string name="echotest">Echo Test</string>
-
+    <string name="helloworldapp">Opentok SDK Demo - Hello World</string>
+	<string name="controlbarapp">Opentok SDK Demo - Control Bar View</string>
 </resources>

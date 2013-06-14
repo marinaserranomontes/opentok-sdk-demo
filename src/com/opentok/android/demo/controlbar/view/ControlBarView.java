@@ -87,8 +87,9 @@ public class ControlBarView  extends RelativeLayout {
 		RelativeLayout.LayoutParams controlParams = new RelativeLayout.LayoutParams(mainLayout.getWidth(), measurePixels(CONTROL_PANEL_HEIGHT));
 		
 		if (ViewType.SubscriberView.equals(type)) {
-			controlParams.addRule(mainLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-			controlParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+			controlParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);			
+			controlParams.topMargin=10;
+			//controlParams.addRule(mainLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 			
 		} else if (ViewType.PublisherView.equals(type)) {
 			
